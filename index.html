@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#080808">
+  <meta name="description" content="El arte de crear — Curso personalizado de fotografía y filmmaking dental.">
+  <title>El arte de crear | Dr. Films</title>
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-snap-type: y mandatory; background: #080808; }
+    body { margin: 0; background: #080808; overflow-x: hidden; }
+    .slide { height: 100vh; height: 100svh; width: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; scroll-snap-align: start; scroll-snap-stop: always; background: #080808; }
+    .slide img, .slide video { display: block; width: 100%; height: 100%; object-fit: contain; object-position: center; }
+    /* Keep the entire original design visible on all screen sizes. */
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+  <main aria-label="Presentación El arte de crear">
+    <section class="slide" aria-label="Slide 1 de 8"><img src="A.jpg" alt="Portada: El arte de crear, curso de fotografía y filmmaking dental" fetchpriority="high"></section>
+    <section class="slide" aria-label="Slide 2 de 8"><img src="B.jpg" alt="100% personalizado" loading="lazy"></section>
+    <section class="slide" aria-label="Slide 3 de 8"><video src="C.mp4" muted autoplay loop playsinline preload="metadata" aria-label="Video del curso, slide 3"></video></section>
+    <section class="slide" aria-label="Slide 4 de 8"><img src="D.jpg" alt="Acompañamiento" loading="lazy"></section>
+    <section class="slide" aria-label="Slide 5 de 8"><video src="E.mp4" muted autoplay loop playsinline preload="metadata" aria-label="Video del curso, slide 5"></video></section>
+    <section class="slide" aria-label="Slide 6 de 8"><video src="F.mp4" muted autoplay loop playsinline preload="metadata" aria-label="Video del curso, slide 6"></video></section>
+    <section class="slide" aria-label="Slide 7 de 8"><img src="G.jpg" alt="Valor de la inversión" loading="lazy"></section>
+    <section class="slide" aria-label="Slide 8 de 8"><img src="H.jpg" alt="Reserva tu fecha" loading="lazy"></section>
+  </main>
+  <script>
+    const videos = [...document.querySelectorAll('video')];
+    const observer = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        const video = entry.target;
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.6) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+          video.currentTime = 0;
+        }
+      }
+    }, { threshold: [0, 0.6, 1] });
+    videos.forEach(video => observer.observe(video));
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) videos.forEach(video => video.pause());
+      else videos.forEach(video => {
+        if (video.closest('.slide').getBoundingClientRect().top > -innerHeight * 0.4 && video.closest('.slide').getBoundingClientRect().top < innerHeight * 0.4) video.play().catch(() => {});
+      });
+    });
+  </script>
+</body>
+</html>
